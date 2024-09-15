@@ -22,6 +22,9 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(wxWidgets)
 
 set(SRCS main.cpp
+        main.h
+        MainWIndow.cpp
+        MainWIndow.h
 )
 
 if(APPLE)

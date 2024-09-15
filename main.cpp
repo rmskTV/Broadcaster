@@ -1,54 +1,45 @@
-#include <gst/gst.h>
+#include "main.h"
+#include "MainWindow.h"
 
-#ifdef __APPLE__
-#include <TargetConditionals.h>
-#endif
+wxIMPLEMENT_APP(MyApp);
 
-int
-tutorial_main (int argc, char *argv[])
+MyApp::MyApp()
 {
-    GstElement *pipeline;
-    GstBus *bus;
-    GstMessage *msg;
-
-    /* Initialize GStreamer */
-    gst_init (&argc, &argv);
-
-    /* Build the pipeline */
-    pipeline =
-        gst_parse_launch
-        ("playbin uri=https://gstreamer.freedesktop.org/data/media/sintel_trailer-480p.webm",
-        NULL);
-
-    /* Start playing */
-    gst_element_set_state (pipeline, GST_STATE_PLAYING);
-
-    /* Wait until error or EOS */
-    bus = gst_element_get_bus (pipeline);
-    msg =
-        gst_bus_timed_pop_filtered (bus, GST_CLOCK_TIME_NONE,
-        (GstMessageType)(GST_MESSAGE_ERROR | GST_MESSAGE_EOS));
-
-    /* See next tutorial for proper error message handling/parsing */
-    if (GST_MESSAGE_TYPE (msg) == GST_MESSAGE_ERROR) {
-        g_printerr ("An error occurred! Re-run with the GST_DEBUG=*:WARN "
-            "environment variable set for more details.\n");
-    }
-
-    /* Free resources */
-    gst_message_unref (msg);
-    gst_object_unref (bus);
-    gst_element_set_state (pipeline, GST_STATE_NULL);
-    gst_object_unref (pipeline);
-    return 0;
 }
 
-int
-main (int argc, char *argv[])
+MyApp::~MyApp()
 {
-#if defined(__APPLE__) && TARGET_OS_MAC && !TARGET_OS_IPHONE
-    return gst_macos_main ((GstMainFunc) tutorial_main, argc, argv, NULL);
-#else
-    return tutorial_main (argc, argv);
-#endif
+}
+
+bool MyApp::OnInit()
+{
+    ::wxInitAllImageHandlers();
+    putenv("GST_DEBUG_DUMP_DOT_DIR=/Users/ruslanmoskvitin/REPOSITORY/Broadcaster/gstDebug");
+    putenv("GST_DEBUG_FILE=/Users/ruslanmoskvitin/REPOSITORY/Broadcaster/gstDebug/log.txt");
+    putenv("GST_DEBUG=3");
+
+    gst_init(NULL, NULL);
+
+
+    MainWindow* mw = NULL;
+    mw = new MainWindow(NULL);
+    if (mw) // If Instantiated object exists...
+    {
+
+        mw->Show(true);
+        SetTopWindow(mw); // Set the window on top of others on your screen
+
+        //std::async(std::launch::async, DiscovererInfo::DSConMonitoring, mw->fileList);
+
+        return true; // Return back to wxWidget system loop
+    }
+    else // If Instantiated object does not exist...
+    {
+        wxMessageBox("Window was not created!\n"
+            "This application will be terminated now!",
+            "Error", wxICON_ERROR);
+        return false;
+    }
+
+
 }
