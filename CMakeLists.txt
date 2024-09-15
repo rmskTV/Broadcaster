@@ -2,7 +2,14 @@ cmake_minimum_required(VERSION 3.29)
 project(Broadcaster)
 
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+find_package(PkgConfig REQUIRED)
+
+pkg_search_module(gstreamer REQUIRED IMPORTED_TARGET gstreamer-1.0>=1.4)
+pkg_search_module(gstreamer-sdp REQUIRED IMPORTED_TARGET gstreamer-sdp-1.0>=1.4)
+pkg_search_module(gstreamer-app REQUIRED IMPORTED_TARGET gstreamer-app-1.0>=1.4)
+pkg_search_module(gstreamer-video REQUIRED IMPORTED_TARGET gstreamer-video-1.0>=1.4)
 
 include(FetchContent)
 set(wxBUILD_SHARED OFF)
@@ -31,4 +38,4 @@ else()
 endif()
 
 
-target_link_libraries(main PRIVATE wxcore wxnet)
+target_link_libraries(main PRIVATE wxcore wxnet PkgConfig::gstreamer PkgConfig::gstreamer-app PkgConfig::gstreamer-video)

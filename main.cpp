@@ -1,75 +1,54 @@
-// Start of wxWidgets "Hello World" Program
-#include <wx/wx.h>
- 
-class MyApp : public wxApp
+#include <gst/gst.h>
+
+#ifdef __APPLE__
+#include <TargetConditionals.h>
+#endif
+
+int
+tutorial_main (int argc, char *argv[])
 {
-public:
-    bool OnInit() override;
-};
- 
-wxIMPLEMENT_APP(MyApp);
- 
-class MyFrame : public wxFrame
-{
-public:
-    MyFrame();
- 
-private:
-    void OnHello(wxCommandEvent& event);
-    void OnExit(wxCommandEvent& event);
-    void OnAbout(wxCommandEvent& event);
-};
- 
-enum
-{
-    ID_Hello = 1
-};
- 
-bool MyApp::OnInit()
-{
-    MyFrame *frame = new MyFrame();
-    frame->Show(true);
-    return true;
+    GstElement *pipeline;
+    GstBus *bus;
+    GstMessage *msg;
+
+    /* Initialize GStreamer */
+    gst_init (&argc, &argv);
+
+    /* Build the pipeline */
+    pipeline =
+        gst_parse_launch
+        ("playbin uri=https://gstreamer.freedesktop.org/data/media/sintel_trailer-480p.webm",
+        NULL);
+
+    /* Start playing */
+    gst_element_set_state (pipeline, GST_STATE_PLAYING);
+
+    /* Wait until error or EOS */
+    bus = gst_element_get_bus (pipeline);
+    msg =
+        gst_bus_timed_pop_filtered (bus, GST_CLOCK_TIME_NONE,
+        (GstMessageType)(GST_MESSAGE_ERROR | GST_MESSAGE_EOS));
+
+    /* See next tutorial for proper error message handling/parsing */
+    if (GST_MESSAGE_TYPE (msg) == GST_MESSAGE_ERROR) {
+        g_printerr ("An error occurred! Re-run with the GST_DEBUG=*:WARN "
+            "environment variable set for more details.\n");
+    }
+
+    /* Free resources */
+    gst_message_unref (msg);
+    gst_object_unref (bus);
+    gst_element_set_state (pipeline, GST_STATE_NULL);
+    gst_object_unref (pipeline);
+    return 0;
 }
- 
-MyFrame::MyFrame()
-    : wxFrame(nullptr, wxID_ANY, "Hello World")
+
+int
+main (int argc, char *argv[])
 {
-    wxMenu *menuFile = new wxMenu;
-    menuFile->Append(ID_Hello, "&Hello...\tCtrl-H",
-                     "Help string shown in status bar for this menu item");
-    menuFile->AppendSeparator();
-    menuFile->Append(wxID_EXIT);
- 
-    wxMenu *menuHelp = new wxMenu;
-    menuHelp->Append(wxID_ABOUT);
- 
-    wxMenuBar *menuBar = new wxMenuBar;
-    menuBar->Append(menuFile, "&File");
-    menuBar->Append(menuHelp, "&Help");
- 
-    SetMenuBar( menuBar );
- 
-    CreateStatusBar();
-    SetStatusText("Welcome to wxWidgets!");
- 
-    Bind(wxEVT_MENU, &MyFrame::OnHello, this, ID_Hello);
-    Bind(wxEVT_MENU, &MyFrame::OnAbout, this, wxID_ABOUT);
-    Bind(wxEVT_MENU, &MyFrame::OnExit, this, wxID_EXIT);
-}
- 
-void MyFrame::OnExit(wxCommandEvent& event)
-{
-    Close(true);
-}
- 
-void MyFrame::OnAbout(wxCommandEvent& event)
-{
-    wxMessageBox("This is a wxWidgets Hello World example",
-                 "About Hello World", wxOK | wxICON_INFORMATION);
-}
- 
-void MyFrame::OnHello(wxCommandEvent& event)
-{
-    wxLogMessage("Hello world from wxWidgets!");
+#if defined(__APPLE__) && TARGET_OS_MAC && !TARGET_OS_IPHONE
+    return gst_macos_main ((GstMainFunc) tutorial_main, argc, argv, NULL);
+#else
+    return tutorial_main (argc, argv);
+#endif
 }
