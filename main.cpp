@@ -1,5 +1,5 @@
 #include "main.h"
-#include "MainWindow.h"
+#include "Window/HelloWorldWindow.h"
 
 wxIMPLEMENT_APP(MyApp);
 
@@ -21,8 +21,8 @@ bool MyApp::OnInit()
     gst_init(NULL, NULL);
 
 
-    MainWindow* mw = NULL;
-    mw = new MainWindow(NULL);
+    HelloWorldWindow* mw = NULL;
+    mw = new HelloWorldWindow(NULL);
     if (mw) // If Instantiated object exists...
     {
 

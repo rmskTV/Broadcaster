@@ -15,11 +15,11 @@
 
 
 
-class MainWindow : public wxFrame
+class HelloWorldWindow: public wxFrame
 {
 public:
-    MainWindow(wxWindow* parent);
-    virtual ~MainWindow();
+    HelloWorldWindow(wxWindow* parent);
+    virtual ~HelloWorldWindow();
 protected:
     void OnmnuAbout(wxCommandEvent& event);
 private:

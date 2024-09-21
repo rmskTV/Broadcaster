@@ -2,7 +2,7 @@
 // Created by Руслан Москвитин on 15.09.2024.
 //
 
-#include "MainWindow.h"
+#include "HelloWorldWindow.h"
 
 #define SEEKSLIDER_MAXVALUE 20000
 
@@ -32,7 +32,7 @@ typedef enum {
 } GstPlayFlags;
 
 
-MainWindow::MainWindow(wxWindow* parent)
+HelloWorldWindow::HelloWorldWindow(wxWindow* parent)
 	: wxFrame(parent, wxID_ANY, wxT("Hello wxDC"), wxPoint(50, 50), wxSize(1285, 850))
 {
 
@@ -87,7 +87,7 @@ MainWindow::MainWindow(wxWindow* parent)
 	Layout();
 	Center();
 
-	Bind(wxEVT_MENU, &MainWindow::OnmnuAbout, this, wxID_ABOUT);
+	Bind(wxEVT_MENU, &HelloWorldWindow::OnmnuAbout, this, wxID_ABOUT);
 
 	m_xid = 0;
 	m_pipeline = NULL;
@@ -171,12 +171,12 @@ MainWindow::MainWindow(wxWindow* parent)
 }
 
 
-MainWindow::~MainWindow()
+HelloWorldWindow::~HelloWorldWindow()
 {
 
 }
 
-void MainWindow::OnmnuAbout(wxCommandEvent& event)
+void HelloWorldWindow::OnmnuAbout(wxCommandEvent& event)
 {
 	const gchar* nano_str;
 	guint major, minor, micro, nano, wxmajor, wxminor, wxmicro;

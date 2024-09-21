@@ -17,14 +17,14 @@ message(STATUS "Fetching wxWidgets...")
 FetchContent_Declare(
         wxWidgets
         GIT_REPOSITORY https://github.com/wxWidgets/wxWidgets.git
-        GIT_TAG v3.2.5
+        GIT_TAG v3.2.6
 )
 FetchContent_MakeAvailable(wxWidgets)
 
 set(SRCS main.cpp
         main.h
-        MainWIndow.cpp
-        MainWIndow.h
+        Window/HelloWorldWindow.cpp
+        Window/HelloWorldWindow.h
 )
 
 if(APPLE)
