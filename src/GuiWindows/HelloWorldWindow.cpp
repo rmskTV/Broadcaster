@@ -2,8 +2,7 @@
 // Created by Руслан Москвитин on 15.09.2024.
 //
 
-#include "HelloWorldWindow.h"
-
+#include "../../include/GuiWindows/HelloWorldWindow.h"
 #define SEEKSLIDER_MAXVALUE 20000
 
 

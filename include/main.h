@@ -7,7 +7,7 @@
 #define FileDescription "Broadcasting authomatisation programm"
 
 
-#include <wx/wx.h>             // for initialization of wxWidgets
+#include <wx/wx.h>
 #include <gst/gst.h>          // Uncomment this line for GStreamer
 
 
