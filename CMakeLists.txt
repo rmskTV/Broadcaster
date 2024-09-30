@@ -22,11 +22,13 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(wxWidgets)
 
 set(SRCS src/main.cpp
-        include/main.h
+        src/main.h
         src/GuiWindows/HelloWorldWindow.cpp
-        include/GuiWindows/HelloWorldWindow.h
+        src/GuiWindows/HelloWorldWindow.h
         src/GuiWindows/MainWindow.cpp
-        include/GuiWindows/MainWindow.h
+        src/GuiWindows/MainWindow.h
+        src/Models/BroadcastedService.cpp
+        src/Models/BroadcastedService.h
 )
 
 if(APPLE)

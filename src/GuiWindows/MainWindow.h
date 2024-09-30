@@ -1,7 +1,8 @@
 //
 // Created by Руслан Москвитин on 21.09.2024.
 //
-
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
 #pragma once
 
 #include <wx/wx.h>
@@ -10,8 +11,7 @@
 #include <wx/icon.h>
 #include <wx/bitmap.h>
 
-
-#include "../Models/BroadcastedServiceModel.h"
+#include "../Models/BroadcastedService.h"
 /// @brief Класс главного окна программы
 /// @authors Ruslan Moskvitin
 /// @date сентябрь 2024
@@ -28,3 +28,4 @@ protected:
 private:
     wxNotebook* сhannelsSwitcher;
 };
+#endif //MAINWINDOW_H

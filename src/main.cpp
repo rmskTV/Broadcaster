@@ -1,5 +1,5 @@
-#include "../include/main.h"
-#include "../include/GuiWindows/MainWindow.h"
+#include "main.h"
+#include "GuiWindows/MainWindow.h"
 
 wxIMPLEMENT_APP(MyApp);
 

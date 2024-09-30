@@ -1,6 +1,8 @@
 
 //
 // Created by Руслан Москвитин on 15.09.2024.
+#ifndef MAIN_H
+#define MAIN_H
 #pragma once
 
 #define PROGRAM_NAME "Broadcaster"
@@ -23,3 +25,4 @@ public:
 };
 
 DECLARE_APP(MyApp);
+#endif //MAIN_H

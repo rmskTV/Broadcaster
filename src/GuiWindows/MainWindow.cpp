@@ -2,7 +2,7 @@
 // Created by Руслан Москвитин on 21.09.2024.
 //
 
-#include "../../include/GuiWindows/MainWindow.h"
+#include "MainWindow.h"
 
 MainWindow::MainWindow(wxWindow *parent)  : wxFrame(parent, wxID_ANY, wxT("Broadcasting authomatisation programm"), wxPoint(50, 50), wxSize(1285, 850))
 {

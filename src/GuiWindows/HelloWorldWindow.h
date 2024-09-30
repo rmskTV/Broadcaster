@@ -2,8 +2,8 @@
 // Created by Руслан Москвитин on 15.09.2024.
 //
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef HELLOWORLDWINDOW_H
+#define HELLOWORLDWINDOW_H
 
 
 #pragma once
@@ -37,4 +37,4 @@ private:
 
 
 
-#endif //MAINWINDOW_H
+#endif //HELLOWORLDWINDOW_H
