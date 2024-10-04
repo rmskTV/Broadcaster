@@ -7,12 +7,13 @@
 
 #include <wx/wx.h>
 
+#include "Model.h"
 
 
 /// @brief Класс транслируемого сервиса (телеканала)
 /// @authors Ruslan Moskvitin
 /// @date сентябрь 2024
-class BroadcastedService {
+class BroadcastedService : public Model{
 
 private:
     ///@brief Наименование сервиса

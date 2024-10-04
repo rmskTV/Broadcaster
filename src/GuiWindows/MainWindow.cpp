@@ -13,6 +13,7 @@ MainWindow::MainWindow(wxWindow *parent)  : wxFrame(parent, wxID_ANY, wxT("Broad
     BroadcastedService *service = new BroadcastedService();
     service->setName("Телеканал Четверг");
     appendServiceToTab(service);
+    BroadcastedService::testSQL();
 }
 
 
