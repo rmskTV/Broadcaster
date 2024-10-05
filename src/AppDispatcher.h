@@ -10,7 +10,9 @@
 
 class AppDispatcher {
     ///@brief Устанавливает логин/пароль и адрес БД по умолчанию
-    static void setDbDefaultCredentials();
+    static void setDbDefaultCredentialsForDbConnection();
+    ///@brief Проверяет структуру БД. При необходимости создает нужные таблицы
+    static void checkDbStructure();
 public:
 
     static void init();

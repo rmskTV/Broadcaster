@@ -19,7 +19,6 @@ bool MyApp::OnInit()
 
     gst_init(NULL, NULL);
     AppDispatcher::init();
-
     MainWindow* mw = NULL;
     mw = new MainWindow(NULL);
     if (mw) // If Instantiated object exists...

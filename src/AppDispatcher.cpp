@@ -4,12 +4,17 @@
 
 #include "AppDispatcher.h"
 void AppDispatcher::init() {
-    setDbDefaultCredentials();
+    setDbDefaultCredentialsForDbConnection();
+    checkDbStructure();
 }
 
-void AppDispatcher::setDbDefaultCredentials() {
+void AppDispatcher::setDbDefaultCredentialsForDbConnection() {
     DbConnection::setDbAddress("tcp://127.0.0.1:3306");
     DbConnection::setDbUserName("root");
     DbConnection::setDbPassword("password");
+    DbConnection::setDbBaseName("cpp_base"); //"broadcaster_base"
 }
 
+void AppDispatcher::checkDbStructure() {
+
+}

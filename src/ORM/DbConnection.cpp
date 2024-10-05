@@ -14,6 +14,8 @@ sql::Connection *DbConnection::openConnection() {
             std::cout << " Пробую запустить новый коннекшн " << std::endl;
             driver_ = get_driver_instance();
             connection_ = driver_->connect(db_address_, db_username_, db_password_);
+            connection_->setSchema(db_name_);
+
         }
         catch (sql::SQLException e)
         {
@@ -47,5 +49,10 @@ void DbConnection::setDbUserName(std::string db_username) {
 
 void DbConnection::setDbPassword(std::string db_password) {
     db_password_ = std::move(db_password);
+    closeConnection();
+}
+
+void DbConnection::setDbBaseName(std::string db_name) {
+    db_name_ = std::move(db_name);
     closeConnection();
 }

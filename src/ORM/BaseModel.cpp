@@ -10,9 +10,6 @@ void BaseModel::testSQL() {
     sql::Statement* stmt;
     sql::PreparedStatement* pstmt;
 
-    //please create database "quickstartdb" ahead of time
-    con->setSchema("cpp_base");
-
     stmt = con->createStatement();
     stmt->execute("DROP TABLE IF EXISTS inventory");
     std::cout << "Finished dropping table (if existed)" << std::endl;

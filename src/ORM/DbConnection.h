@@ -31,6 +31,10 @@ class DbConnection {
 
     ///@brief Пароль пользователя для доступа к серверу БД
     static inline std::string db_password_;
+
+    ///@brief Название БД
+    static inline std::string db_name_;
+
 public:
     ///@brief Устанавливает коннекшену Адрес БД
     ///@param db_address Адрес сервера. Например, tcp://127.0.0.1:3306
@@ -44,7 +48,11 @@ public:
     ///@param db_password Пароль пользвателя. Например, 1234321
     static void setDbPassword(std::string db_password);
 
-    ///@brief Возвращает указатель на работающий коннекшн с БД. В случае ошибки возвращает nullptr
+    ///@brief Устанавливает название базы, с которой нужно работать в рамках коннекшена
+    ///@param db_name Название базы. Например, BroadcaterBase
+    static void setDbBaseName(std::string db_name);
+
+    ///@brief Открывает соединение (коннекшен) к серверу БД и возвращает указатель на него. В случае ошибки возвращает nullptr
     static sql::Connection* openConnection();
 
     ///@brief Закрывает и удаляет существующий коннекшн с БД.
