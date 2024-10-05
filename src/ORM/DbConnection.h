@@ -48,12 +48,22 @@ public:
     ///@param db_password Пароль пользвателя. Например, 1234321
     static void setDbPassword(std::string db_password);
 
-    ///@brief Устанавливает название базы, с которой нужно работать в рамках коннекшена
+    ///@brief Устанавливает название базы, с которой будет работать коннекшен
     ///@param db_name Название базы. Например, BroadcaterBase
     static void setDbBaseName(std::string db_name);
 
+    ///@brief Возвращает название базы, с которой будет работать коннекшен
+    ///@return db_name Название базы. Например, BroadcaterBase
+    static std::string getDbBaseName();
+
+
+
     ///@brief Открывает соединение (коннекшен) к серверу БД и возвращает указатель на него. В случае ошибки возвращает nullptr
-    static sql::Connection* openConnection();
+    static sql::Connection* getConnection();
+
+
+    ///@brief Разрешает коннекшену использовать назначенную БД
+    static void useTargetDataBase();
 
     ///@brief Закрывает и удаляет существующий коннекшн с БД.
     static void closeConnection();

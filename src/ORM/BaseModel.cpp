@@ -6,7 +6,7 @@
 
 void BaseModel::testSQL() {
 
-    sql::Connection* con = DbConnection::openConnection();
+    sql::Connection* con = DbConnection::getConnection();
     sql::Statement* stmt;
     sql::PreparedStatement* pstmt;
 

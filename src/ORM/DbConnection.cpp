@@ -6,7 +6,7 @@
 
 #include <utility>
 
-sql::Connection *DbConnection::openConnection() {
+sql::Connection *DbConnection::getConnection() {
 
     if (connection_ == nullptr) {
         try
@@ -14,7 +14,6 @@ sql::Connection *DbConnection::openConnection() {
             std::cout << " Пробую запустить новый коннекшн " << std::endl;
             driver_ = get_driver_instance();
             connection_ = driver_->connect(db_address_, db_username_, db_password_);
-            connection_->setSchema(db_name_);
 
         }
         catch (sql::SQLException e)
@@ -22,9 +21,7 @@ sql::Connection *DbConnection::openConnection() {
             std::cout << "Could not connect to server. Error message: " << e.what() << std::endl;
             return nullptr;
         }
-    }
-    else {
-        std::cout << " Коннекшн существует " << std::endl;
+        std::cout << " Коннекшн установлен " << std::endl;
     }
     return connection_;
 }
@@ -55,4 +52,12 @@ void DbConnection::setDbPassword(std::string db_password) {
 void DbConnection::setDbBaseName(std::string db_name) {
     db_name_ = std::move(db_name);
     closeConnection();
+}
+
+void DbConnection::useTargetDataBase() {
+    getConnection()->setSchema(db_name_);
+}
+
+std::string DbConnection::getDbBaseName() {
+    return db_name_;
 }
