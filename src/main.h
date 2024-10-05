@@ -11,8 +11,11 @@
 
 #include <wx/wx.h>
 #include <gst/gst.h>          // Uncomment this line for GStreamer
+#include "GuiWindows/MainWindow.h"
 
-
+/// @brief Класс main
+/// @authors Ruslan Moskvitin
+/// @date сентябрь 2024
 class MyApp : public wxApp
 {
 public:
@@ -20,8 +23,8 @@ public:
     MyApp();
     ~MyApp();
 
-public:
     virtual bool OnInit();
+
 };
 
 DECLARE_APP(MyApp);

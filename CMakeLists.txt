@@ -28,8 +28,14 @@ set(SRCS src/main.cpp
         src/GuiWindows/HelloWorldWindow.h
         src/GuiWindows/MainWindow.cpp
         src/GuiWindows/MainWindow.h
-        src/Models/BroadcastedService.cpp
-        src/Models/BroadcastedService.h
+        src/Models/Channel.cpp
+        src/Models/Channel.h
+        src/ORM/BaseModel.cpp
+        src/ORM/BaseModel.h
+        src/AppDispatcher.cpp
+        src/AppDispatcher.h
+        src/ORM/DbConnection.cpp
+        src/ORM/DbConnection.h
 )
 
 if(APPLE)

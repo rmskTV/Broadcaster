@@ -13,7 +13,7 @@
 /// @brief Класс транслируемого сервиса (телеканала)
 /// @authors Ruslan Moskvitin
 /// @date сентябрь 2024
-class BroadcastedService : public Model{
+class Channel : public Model{
 
 private:
     ///@brief Наименование сервиса

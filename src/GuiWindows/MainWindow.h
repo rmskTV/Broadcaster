@@ -11,7 +11,7 @@
 #include <wx/icon.h>
 #include <wx/bitmap.h>
 
-#include "../Models/BroadcastedService.h"
+#include "../Models/Channel.h"
 /// @brief Класс главного окна программы
 /// @authors Ruslan Moskvitin
 /// @date сентябрь 2024
@@ -23,7 +23,7 @@ public:
     /// @brief Добавляет на главный экран программы вкладку транслируемого сервиса (телеканала)
     /// @param [in] broadcastedService экземпляр класса BroadcasterService
     /// @return wxScrolledWindow
-    wxScrolledWindow appendServiceToTab(BroadcastedService* broadcastedService);
+    wxScrolledWindow appendServiceToTab(Channel* broadcastedService);
 protected:
 private:
     wxNotebook* сhannelsSwitcher;

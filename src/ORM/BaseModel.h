@@ -9,6 +9,7 @@
 
 #include <stdlib.h>
 #include <iostream>
+#include "DbConnection.h"
 
 #include "mysql_connection.h"
 #include <cppconn/driver.h>
@@ -49,58 +50,8 @@ protected:
     std::string deletedAtField = "deleted_at";
 
 public:
-    static void testSQL() {
-
-        const std::string server = "tcp://127.0.0.1:3306";
-        const std::string username = "root";
-        const std::string password = "password";
-
-        sql::Driver* driver;
-        sql::Connection* con;
-        sql::Statement* stmt;
-        sql::PreparedStatement* pstmt;
-
-        try
-        {
-            driver = get_driver_instance();
-            con = driver->connect(server, username, password);
-        }
-        catch (sql::SQLException e)
-        {
-            std::cout << "Could not connect to server. Error message: " << e.what() << std::endl;
-            system("pause");
-            exit(1);
-        }
-
-        //please create database "quickstartdb" ahead of time
-        con->setSchema("cpp_base");
-
-        stmt = con->createStatement();
-        stmt->execute("DROP TABLE IF EXISTS inventory");
-        std::cout << "Finished dropping table (if existed)" << std::endl;
-        stmt->execute("CREATE TABLE inventory (id serial PRIMARY KEY, name VARCHAR(50), quantity INTEGER);");
-        std::cout << "Finished creating table" << std::endl;
-        delete stmt;
-
-        pstmt = con->prepareStatement("INSERT INTO inventory(name, quantity) VALUES(?,?)");
-        pstmt->setString(1, "banana");
-        pstmt->setInt(2, 150);
-        pstmt->execute();
-        std::cout << "One row inserted." << std::endl;
-
-        pstmt->setString(1, "orange");
-        pstmt->setInt(2, 154);
-        pstmt->execute();
-        std::cout << "One row inserted." << std::endl;
-
-        pstmt->setString(1, "apple");
-        pstmt->setInt(2, 100);
-        pstmt->execute();
-        std::cout << "One row inserted." << std::endl;
-
-        delete pstmt;
-        delete con;
-    }
+    /// @brief хеллоВорлд метод
+    static void testSQL();
 };
 
 

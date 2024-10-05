@@ -6,18 +6,20 @@
 
 MainWindow::MainWindow(wxWindow *parent)  : wxFrame(parent, wxID_ANY, wxT("Broadcasting authomatisation programm"), wxPoint(50, 50), wxSize(1285, 850))
 {
+
     //Переключатель между сервисами (телеканалами)
     сhannelsSwitcher = new wxNotebook(this, wxID_ANY, wxPoint(0, 0), wxDefaultSize, 0, _T("ID_NOTEBOOK1"));
 
     //Создаем фейковый сервис и добавляем его в переключатель через выделенный метод
-    BroadcastedService *service = new BroadcastedService();
+    Channel *service = new Channel();
     service->setName("Телеканал Четверг");
     appendServiceToTab(service);
-    BroadcastedService::testSQL();
+
+    Channel::testSQL();
 }
 
 
-wxScrolledWindow MainWindow::appendServiceToTab(BroadcastedService* broadcastedService) {
+wxScrolledWindow MainWindow::appendServiceToTab(Channel* broadcastedService) {
     // Создаем панель для вкладки
     wxPanel* tabPanel = new wxPanel(сhannelsSwitcher, wxID_ANY);
 
