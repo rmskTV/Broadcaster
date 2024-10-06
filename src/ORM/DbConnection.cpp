@@ -3,31 +3,36 @@
 //
 
 #include "DbConnection.h"
-
+#include "../Models/LogMessage.h"
 #include <utility>
+#include <cppconn/driver.h>
+#include <cppconn/exception.h>
+#include <cppconn/prepared_statement.h>
+#include <sys/stat.h>
 
 sql::Connection *DbConnection::getConnection() {
 
     if (connection_ == nullptr) {
         try
         {
-            std::cout << " Пробую запустить новый коннекшн " << std::endl;
+            LogMessage::create(LogLevel::INFO, "DbConnection", "Пробую установить новое подключение к БД");
             driver_ = get_driver_instance();
             connection_ = driver_->connect(db_address_, db_username_, db_password_);
 
         }
         catch (sql::SQLException e)
         {
-            std::cout << "Could not connect to server. Error message: " << e.what() << std::endl;
+            LogMessage::create(LogLevel::ERROR, "DbConnection", "Не удалось подключиться к серверу БД. Получена ошибка: " + std::string(e.what()));
             return nullptr;
         }
-        std::cout << " Коннекшн установлен " << std::endl;
+        LogMessage::create(LogLevel::INFO, "DbConnection", "Коннекшен установлен");
     }
     return connection_;
 }
 
 void DbConnection::closeConnection() {
     if (connection_ != nullptr) {
+        LogMessage::create(LogLevel::INFO, "DbConnection", "Разрываю существующий коннекшен к БД");
         connection_->close();
         delete connection_;
         connection_ = nullptr;
@@ -56,7 +61,17 @@ void DbConnection::setDbBaseName(std::string db_name) {
 
 void DbConnection::useTargetDataBase() {
     getConnection()->setSchema(db_name_);
+    LogMessage::create(LogLevel::INFO, "DbConnection", "Коннекшену назначена база " + getDbBaseName());
 }
+
+void DbConnection::useTargetDataBaseForce() {
+    sql::Statement* stmt = DbConnection::getConnection()->createStatement();
+    stmt->execute((std::string)"CREATE DATABASE IF NOT EXISTS " + getDbBaseName());
+    delete stmt;
+    LogMessage::create(LogLevel::INFO, "DbConnection", "Проверено существование базы " + getDbBaseName());
+    useTargetDataBase();
+}
+
 
 std::string DbConnection::getDbBaseName() {
     return db_name_;

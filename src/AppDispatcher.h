@@ -4,8 +4,7 @@
 
 #ifndef APPDISPATCHER_H
 #define APPDISPATCHER_H
-
-#include "ORM/DbConnection.h"
+#pragma once
 
 
 class AppDispatcher {

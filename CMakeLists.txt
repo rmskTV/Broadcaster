@@ -36,6 +36,8 @@ set(SRCS src/main.cpp
         src/AppDispatcher.h
         src/ORM/DbConnection.cpp
         src/ORM/DbConnection.h
+        src/Models/LogMessage.cpp
+        src/Models/LogMessage.h
 )
 
 if(APPLE)

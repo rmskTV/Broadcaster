@@ -14,8 +14,6 @@ MainWindow::MainWindow(wxWindow *parent)  : wxFrame(parent, wxID_ANY, wxT("Broad
     Channel *service = new Channel();
     service->setName("Телеканал Четверг");
     appendServiceToTab(service);
-
-    Channel::testSQL();
 }
 
 

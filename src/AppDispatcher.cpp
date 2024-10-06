@@ -1,14 +1,18 @@
 //
 // Created by Руслан Москвитин on 05.10.2024.
 //
-
 #include "AppDispatcher.h"
+#include "Models/LogMessage.h"
+#include "Models/Channel.h"
+#include "ORM/DbConnection.h"
+
 void AppDispatcher::init() {
     setDbDefaultCredentialsForDbConnection();
     checkDbStructure();
 }
 
 void AppDispatcher::setDbDefaultCredentialsForDbConnection() {
+    LogMessage::create(LogLevel::INFO, "AppDispatcher", "Устанавливаю параметры подключения к серверу БД по умолчанию");
     DbConnection::setDbAddress("tcp://127.0.0.1:3306");
     DbConnection::setDbUserName("root");
     DbConnection::setDbPassword("password");
@@ -16,9 +20,9 @@ void AppDispatcher::setDbDefaultCredentialsForDbConnection() {
 }
 
 void AppDispatcher::checkDbStructure() {
-    sql::Statement* stmt = DbConnection::getConnection()->createStatement();
-    stmt->execute((std::string)"CREATE DATABASE IF NOT EXISTS " + (std::string)DbConnection::getDbBaseName());
-    std::cout << "Check DB " + (std::string)DbConnection::getDbBaseName() << std::endl;
-    delete stmt;
-    DbConnection::useTargetDataBase();
+    LogMessage::create(LogLevel::INFO, "AppDispatcher", "Проверяю структуру БД");
+
+    DbConnection::useTargetDataBaseForce();
+    Channel::checkTable();
+    LogMessage::checkTable();
 }

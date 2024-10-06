@@ -1,4 +1,7 @@
 #include "main.h"
+#include "AppDispatcher.h"
+#include <gst/gst.h>          // Uncomment this line for GStreamer
+#include "GuiWindows/MainWindow.h"
 
 wxIMPLEMENT_APP(MyApp);
 

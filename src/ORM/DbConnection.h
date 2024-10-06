@@ -4,18 +4,14 @@
 
 #ifndef DBCONNECTION_H
 #define DBCONNECTION_H
+#pragma once
 #include "mysql_connection.h"
-#include <cppconn/driver.h>
-#include <cppconn/exception.h>
-#include <cppconn/prepared_statement.h>
-#include <sys/stat.h>
 
-#include "../AppDispatcher.h"
 
 
 /// @brief Класс DbConnection для настройки коннекшена к Базе Данных через cppconnection
 /// @authors Ruslan Moskvitin
-/// @date октябрь 2024
+/// @date Октябрь 2024
 class DbConnection {
     ///@brief Указатель на непосредственно экземпляр sql::Connection
     static inline sql::Connection* connection_;
@@ -61,6 +57,8 @@ public:
     ///@brief Открывает соединение (коннекшен) к серверу БД и возвращает указатель на него. В случае ошибки возвращает nullptr
     static sql::Connection* getConnection();
 
+    ///@brief Разрешает коннекшену использовать назначенную БД. Если базы не существует, создает ее
+    static void useTargetDataBaseForce();
 
     ///@brief Разрешает коннекшену использовать назначенную БД
     static void useTargetDataBase();

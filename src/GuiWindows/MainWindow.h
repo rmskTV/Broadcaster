@@ -14,7 +14,7 @@
 #include "../Models/Channel.h"
 /// @brief Класс главного окна программы
 /// @authors Ruslan Moskvitin
-/// @date сентябрь 2024
+/// @date Сентябрь 2024
 class MainWindow final : public wxFrame
 {
 public:

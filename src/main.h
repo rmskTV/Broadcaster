@@ -8,14 +8,11 @@
 #define PROGRAM_NAME "Broadcaster"
 #define FileDescription "Broadcasting authomatisation programm"
 
-
 #include <wx/wx.h>
-#include <gst/gst.h>          // Uncomment this line for GStreamer
-#include "GuiWindows/MainWindow.h"
 
 /// @brief Класс main
 /// @authors Ruslan Moskvitin
-/// @date сентябрь 2024
+/// @date Сентябрь 2024
 class MyApp : public wxApp
 {
 public:
