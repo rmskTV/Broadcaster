@@ -23,7 +23,7 @@ public:
     ///@brief Проверяет структуру таблицы. При необходимости создает таблицу и требуемые поля
     static void checkTable(){checkTableFor(&tableName, &dbFields);}
 
-    static void create(LogLevel level, std::string source, std::string message);
+    static void create(LogLevel level, const std::string& source, const std::string& message);
 
 };
 

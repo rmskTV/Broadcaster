@@ -13,15 +13,12 @@
 #include <cppconn/exception.h>
 #include <cppconn/prepared_statement.h>
 
+#include "QueryBuilder.h"
+
 
 void BaseModel::checkTableFor(std::string* tableName, std::vector<dbField>* dbFields) {
     LogMessage::create(LogLevel::INFO, "BaseModel", "Проверяю структуру таблицы " + *tableName);
-
-    sql::Connection* con = DbConnection::getConnection();
-    sql::Statement* stmt;
-    stmt = con->createStatement();
-    stmt->execute("CREATE TABLE  IF NOT EXISTS "+ *tableName +" (id serial PRIMARY KEY, name VARCHAR(50), quantity INTEGER);");
-    delete stmt;
+    QueryBuilder::query()->createTable(*tableName, &primaryKeyField);
 }
 
 void BaseModel::testSQL() {

@@ -33,8 +33,15 @@ sql::Connection *DbConnection::getConnection() {
 void DbConnection::closeConnection() {
     if (connection_ != nullptr) {
         LogMessage::create(LogLevel::INFO, "DbConnection", "Разрываю существующий коннекшен к БД");
-        connection_->close();
-        delete connection_;
+        try
+        {
+            connection_->close();
+            delete connection_;
+        }
+        catch (sql::SQLException e)
+        {
+            LogMessage::create(LogLevel::ERROR, "DbConnection", "Не удалось разорвать SQL-соединение. Получена ошибка: " + std::string(e.what()));
+        }
         connection_ = nullptr;
     }
 }
@@ -60,18 +67,17 @@ void DbConnection::setDbBaseName(std::string db_name) {
 }
 
 void DbConnection::useTargetDataBase() {
-    getConnection()->setSchema(db_name_);
-    LogMessage::create(LogLevel::INFO, "DbConnection", "Коннекшену назначена база " + getDbBaseName());
-}
+    try
+    {
+        getConnection()->setSchema(db_name_);
+        LogMessage::create(LogLevel::INFO, "DbConnection", "Коннекшену назначена база " + getDbBaseName());
+    }
+    catch (sql::SQLException e)
+    {
+        LogMessage::create(LogLevel::ERROR, "DbConnection", "Не удалось назначить коннекшену базу. Получена ошибка: " + std::string(e.what()));
+    }
 
-void DbConnection::useTargetDataBaseForce() {
-    sql::Statement* stmt = DbConnection::getConnection()->createStatement();
-    stmt->execute((std::string)"CREATE DATABASE IF NOT EXISTS " + getDbBaseName());
-    delete stmt;
-    LogMessage::create(LogLevel::INFO, "DbConnection", "Проверено существование базы " + getDbBaseName());
-    useTargetDataBase();
 }
-
 
 std::string DbConnection::getDbBaseName() {
     return db_name_;

@@ -5,6 +5,7 @@
 #include "Models/LogMessage.h"
 #include "Models/Channel.h"
 #include "ORM/DbConnection.h"
+#include "ORM/QueryBuilder.h"
 
 void AppDispatcher::init() {
     setDbDefaultCredentialsForDbConnection();
@@ -21,8 +22,8 @@ void AppDispatcher::setDbDefaultCredentialsForDbConnection() {
 
 void AppDispatcher::checkDbStructure() {
     LogMessage::create(LogLevel::INFO, "AppDispatcher", "Проверяю структуру БД");
-
-    DbConnection::useTargetDataBaseForce();
+    QueryBuilder::query()->createDataBase(DbConnection::getDbBaseName());
+    DbConnection::useTargetDataBase();
     Channel::checkTable();
     LogMessage::checkTable();
 }

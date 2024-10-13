@@ -38,6 +38,9 @@ set(SRCS src/main.cpp
         src/ORM/DbConnection.h
         src/Models/LogMessage.cpp
         src/Models/LogMessage.h
+        src/ORM/QueryBuilder.cpp
+        src/ORM/QueryBuilder.h
+        src/ORM/DbField.h
 )
 
 if(APPLE)

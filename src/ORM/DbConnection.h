@@ -8,8 +8,7 @@
 #include "mysql_connection.h"
 
 
-
-/// @brief Класс DbConnection для настройки коннекшена к Базе Данных через cppconnection
+/// @brief Класс (статический) DbConnection для настройки коннекшена к Базе Данных через cppconnection
 /// @authors Ruslan Moskvitin
 /// @date Октябрь 2024
 class DbConnection {
@@ -52,13 +51,8 @@ public:
     ///@return db_name Название базы. Например, BroadcaterBase
     static std::string getDbBaseName();
 
-
-
     ///@brief Открывает соединение (коннекшен) к серверу БД и возвращает указатель на него. В случае ошибки возвращает nullptr
     static sql::Connection* getConnection();
-
-    ///@brief Разрешает коннекшену использовать назначенную БД. Если базы не существует, создает ее
-    static void useTargetDataBaseForce();
 
     ///@brief Разрешает коннекшену использовать назначенную БД
     static void useTargetDataBase();
