@@ -23,30 +23,24 @@ QueryBuilder *QueryBuilder::query() {
     return new QueryBuilder();
 }
 void QueryBuilder::createDataBase(const std::string& db_name) const {
-    try
-    {
-        if ( _statement != nullptr ) {
-            _statement->execute(static_cast<std::string>("CREATE DATABASE IF NOT EXISTS ") + db_name);
-        }
-    }
-    catch (sql::SQLException e)
-    {
-        LogMessage::create(LogLevel::ERROR, "QueryBuilder", "Не удалось создать базу " + db_name + ". Получена ошибка: " + std::string(e.what()));
-    }
-
-    delete this;
+    this->executeSql("CREATE DATABASE IF NOT EXISTS " + db_name);
 }
 
 void QueryBuilder::createTable(const std::string& tableName, dbField* dbField) const {
+    this->executeSql("CREATE TABLE  IF NOT EXISTS "+ tableName +" ("+ dbField->getName() + " " +  sqlFIeldTypeNameFor(dbField->getType()) +" AUTO_INCREMENT PRIMARY KEY);");
+}
+
+
+void QueryBuilder::executeSql(const std::string& query) const {
     try
     {
         if ( _statement != nullptr ) {
-            _statement->execute("CREATE TABLE  IF NOT EXISTS "+ tableName +" ("+ dbField->getName() + " " +  sqlFIeldTypeNameFor(dbField->getType()) +" AUTO_INCREMENT PRIMARY KEY);");
+            _statement->execute(query);
         }
     }
     catch (sql::SQLException e)
     {
-        LogMessage::create(LogLevel::ERROR, "QueryBuilder", "Не удалось проверить таблицу " + tableName + ". Получена ошибка: " + std::string(e.what()));
+        LogMessage::create(LogLevel::ERROR, "QueryBuilder", "Не удалось выполнить запрос " +  query + ". Получена ошибка: " + std::string(e.what()));
     }
 
     delete this;

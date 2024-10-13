@@ -14,6 +14,9 @@
 class QueryBuilder {
     ///@brief Указатель на sql::Statement выделенный в рамках инстанса
     sql::Statement* _statement = nullptr;
+    ///@brief Выполняет собранную SQL-команда
+    ///@param query SQL-команда
+    void executeSql(const std::string& query) const;
     QueryBuilder();
     ~QueryBuilder();
 public:
