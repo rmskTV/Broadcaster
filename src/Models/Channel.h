@@ -31,7 +31,9 @@ class Channel : public Model{
 
 public:
     ///@brief Проверяет структуру таблицы. При необходимости создает таблицу и требуемые поля
-    static void checkTable(){checkTableFor(&tableName, &dbFields);}
+    static void checkTable() {
+        checkTableFor(&tableName, &dbFields);
+    }
 
     ///@brief Получить наименование сервиса
     wxString getName(){return _name;}

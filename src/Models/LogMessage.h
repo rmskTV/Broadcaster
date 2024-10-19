@@ -21,7 +21,9 @@ class LogMessage : public Model {
     std::string _message;
 public:
     ///@brief Проверяет структуру таблицы. При необходимости создает таблицу и требуемые поля
-    static void checkTable(){checkTableFor(&tableName, &dbFields);}
+    static void checkTable() {
+        checkTableFor(&tableName, &dbFields);
+    }
 
     static void create(LogLevel level, const std::string& source, const std::string& message);
 

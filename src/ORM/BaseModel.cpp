@@ -4,52 +4,14 @@
 
 #include "BaseModel.h"
 #include "../Models/LogMessage.h"
-#include <stdlib.h>
 #include <iostream>
-#include <utility>
-#include "DbConnection.h"
-#include "mysql_connection.h"
-#include <cppconn/driver.h>
-#include <cppconn/exception.h>
-#include <cppconn/prepared_statement.h>
-
 #include "QueryBuilder.h"
 
 
-void BaseModel::checkTableFor(std::string* tableName, std::vector<dbField>* dbFields) {
+void BaseModel::checkTableFor(const std::string* tableName, std::vector<dbField>* dbFields) {
     LogMessage::create(LogLevel::INFO, "BaseModel", "Проверяю структуру таблицы " + *tableName);
     QueryBuilder::query()->createTable(*tableName, &primaryKeyField);
-}
-
-void BaseModel::testSQL() {
-
-    sql::Connection* con = DbConnection::getConnection();
-    sql::Statement* stmt;
-    sql::PreparedStatement* pstmt;
-
-    stmt = con->createStatement();
-    stmt->execute("DROP TABLE IF EXISTS inventory");
-    std::cout << "Finished dropping table (if existed)" << std::endl;
-    stmt->execute("CREATE TABLE inventory (id serial PRIMARY KEY, name VARCHAR(50), quantity INTEGER);");
-    std::cout << "Finished creating table" << std::endl;
-    delete stmt;
-
-    pstmt = con->prepareStatement("INSERT INTO inventory(name, quantity) VALUES(?,?)");
-    pstmt->setString(1, "banana");
-    pstmt->setInt(2, 150);
-    pstmt->execute();
-    std::cout << "One row inserted." << std::endl;
-
-    pstmt->setString(1, "orange");
-    pstmt->setInt(2, 154);
-    pstmt->execute();
-    std::cout << "One row inserted." << std::endl;
-
-    pstmt->setString(1, "apple");
-    pstmt->setInt(2, 100);
-    pstmt->execute();
-    std::cout << "One row inserted." << std::endl;
-
-    delete pstmt;
-    DbConnection::closeConnection();
+    for (dbField& field : *dbFields) {
+        QueryBuilder::query()->createColumn(*tableName, &field);
+    }
 }

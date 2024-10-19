@@ -23,7 +23,7 @@ protected:
     /// @brief Тип поля с Primary key индексом
     static inline FIELD_TYPE primaryKeyType = FIELD_TYPE::INTEGER;
 
-    static inline dbField primaryKeyField = dbField(primaryKey, primaryKeyType, 0);
+    static inline dbField primaryKeyField = dbField(primaryKey, primaryKeyType, "");
     /// @brief Неокончательное удаление экземпляров
     static inline bool useSoftDeleting = true;
 
@@ -45,7 +45,7 @@ public:
     /// @brief хеллоВорлд метод
     static void testSQL();
     ///@brief Проверяет структуру таблицы для переданного класса
-    static void checkTableFor(std::string *tableName, std::vector<dbField> *dbFields);
+    static void checkTableFor(const std::string *tableName, std::vector<dbField> *dbFields);
 
 };
 

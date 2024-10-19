@@ -5,7 +5,7 @@
 #include "LogMessage.h"
 #include <wx/wx.h>
 std::vector<dbField> LogMessage::dbFields = {
-    dbField("_level", FIELD_TYPE::INTEGER, 0),
+    dbField("_level", FIELD_TYPE::INTEGER, "0"),
     dbField("_source", FIELD_TYPE::STRING, ""),
     dbField("_message", FIELD_TYPE::STRING, ""),
 };

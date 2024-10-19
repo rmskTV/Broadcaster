@@ -18,7 +18,7 @@ inline const char* sqlFIeldTypeNameFor(FIELD_TYPE type)
 {
     switch(type)
     {
-        case FIELD_TYPE::STRING:       return "VARCHAR[255]";
+        case FIELD_TYPE::STRING:       return "VARCHAR(255)";
         case FIELD_TYPE::INTEGER:      return "INTEGER";
     }
     return "VARCHAR[255]";
@@ -30,22 +30,18 @@ inline const char* sqlFIeldTypeNameFor(FIELD_TYPE type)
 class  dbField {
     std::string name;
     FIELD_TYPE type;
-    std::string defaultValueString;
-    int defaultValueInt;
+    std::string defaultValue;
 
 public:
-    dbField(std::string name, FIELD_TYPE type, std::string defaultValue) {
+    dbField(std::string name, const FIELD_TYPE type, std::string defaultValue) {
         this->name = std::move(name);
         this->type = type;
-        this->defaultValueString = std::move(defaultValue);
-        this->defaultValueInt = 0;
+        this->defaultValue = std::move(defaultValue);
     }
 
-    dbField(std::string name, FIELD_TYPE type, const int defaultValue) {
-        this->name = std::move(name);
-        this->type = type;
-        this->defaultValueString = "";
-        this->defaultValueInt = defaultValue;
+
+    std::string getDefaultValue() {
+        return this->defaultValue;
     }
 
     std::string getName() {
