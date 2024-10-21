@@ -9,6 +9,7 @@
 #include <map>
 #include <utility>
 #include "DbField.h"
+#include "QueryBuilder.h"
 
 
 /// @brief Класс Базовой модели. Инкапсулирует взаимодействие С Базой данных для моделей приложения.
@@ -23,12 +24,11 @@ protected:
     /// @brief Тип поля с Primary key индексом
     static inline FIELD_TYPE primaryKeyType = FIELD_TYPE::INTEGER;
 
-    static inline dbField primaryKeyField = dbField(primaryKey, primaryKeyType, "");
-    /// @brief Неокончательное удаление экземпляров
-    static inline bool useSoftDeleting = true;
+    /// @brief Описание PK-поля
+    static inline dbField primaryKeyField = dbField(primaryKey, primaryKeyType, "", false);
 
-    /// @brief Количество экземпляров на страницу при пагинации
-    static inline int perPage = 15;
+    ///@brief Массив полей  служебных полей Timestamp таблицы
+    static std::vector<dbField> timeStampFields;
 
     /// @brief Название поля для Created_at
     static inline std::string createdAtField = "created_at";
@@ -40,12 +40,15 @@ protected:
     static inline std::string deletedAtField = "deleted_at";
 
 public:
+
     virtual ~BaseModel() = default;
 
-    /// @brief хеллоВорлд метод
-    static void testSQL();
-    ///@brief Проверяет структуру таблицы для переданного класса
-    static void checkTableFor(const std::string *tableName, std::vector<dbField> *dbFields);
+    ///@brief  Возвращает список полей
+    static std::vector<dbField>*  getTimeStampsFields() {return &timeStampFields;}
+
+    ///@brief  Возвращает информацию о PK-поле
+    static dbField* getPrimaryKeyField() {return &primaryKeyField;}
+
 
 };
 

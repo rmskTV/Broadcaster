@@ -49,7 +49,7 @@ public:
 
     ///@brief Возвращает название базы, с которой будет работать коннекшен
     ///@return db_name Название базы. Например, BroadcaterBase
-    static std::string getDbBaseName();
+    static const std::string& getDbBaseName();
 
     ///@brief Открывает соединение (коннекшен) к серверу БД и возвращает указатель на него. В случае ошибки возвращает nullptr
     static sql::Connection* getConnection();

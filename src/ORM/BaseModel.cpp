@@ -5,13 +5,10 @@
 #include "BaseModel.h"
 #include "../Models/LogMessage.h"
 #include <iostream>
-#include "QueryBuilder.h"
 
+std::vector<dbField> BaseModel::timeStampFields = {
+    dbField(createdAtField, FIELD_TYPE::TIMESTAMP, "NULL",false),
+    dbField(updatedAtField, FIELD_TYPE::TIMESTAMP, "NULL",false),
+    dbField(deletedAtField, FIELD_TYPE::TIMESTAMP, "NULL",true),
+};
 
-void BaseModel::checkTableFor(const std::string* tableName, std::vector<dbField>* dbFields) {
-    LogMessage::create(LogLevel::INFO, "BaseModel", "Проверяю структуру таблицы " + *tableName);
-    QueryBuilder::query()->createTable(*tableName, &primaryKeyField);
-    for (dbField& field : *dbFields) {
-        QueryBuilder::query()->createColumn(*tableName, &field);
-    }
-}

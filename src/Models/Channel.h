@@ -9,7 +9,7 @@
 
 #include <utility>
 
-#include "../ORM/BaseModel.h"
+#include "../ORM/ModelQueryBuilder.h"
 #include "Model.h"
 
 
@@ -29,17 +29,27 @@ class Channel : public Model{
     ///@brief Вкладка в главном окне программы, в которой ведется работа с сервисом
     wxScrolledWindow *guiMainWIndowPanel = nullptr;
 
-public:
-    ///@brief Проверяет структуру таблицы. При необходимости создает таблицу и требуемые поля
-    static void checkTable() {
-        checkTableFor(&tableName, &dbFields);
+    static QueryBuilder* newQueryBuilder() {
+        return ModelQueryBuilder<Channel>::query();
     }
+
+public:
+
+    ///@brief  Возвращает название ассоциированной таблицы
+    const static std::string& getTableName() {return tableName;}
+
+    ///@brief  Возвращает список полей
+    static std::vector<dbField> *getDbFields() {return &dbFields;}
 
     ///@brief Получить наименование сервиса
     wxString getName(){return _name;}
 
     ///@brief Изменить наименование сервиса
     void setName(wxString name){this->_name = std::move(name);}
+
+    static QueryBuilder* query() {
+        return newQueryBuilder();
+    };
 };
 
 #endif //CHANNEL_H

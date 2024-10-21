@@ -6,5 +6,5 @@
 
 
 std::vector<dbField> Channel::dbFields = {
-    dbField("_name", FIELD_TYPE::STRING, "")
+    dbField("_name", FIELD_TYPE::STRING, "", false)
 };

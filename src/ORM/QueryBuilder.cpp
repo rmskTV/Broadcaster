@@ -12,8 +12,8 @@ QueryBuilder::QueryBuilder() {
         LogMessage::create(LogLevel::ERROR, "QueryBuilder", "DbConnection::getConnection() возвращает nullptr ");
     }
     else {
+        _dbName = DbConnection::getDbBaseName();
         _statement = DbConnection::getConnection()->createStatement();
-        _db_name = DbConnection::getDbBaseName();
     }
 };
 QueryBuilder::~QueryBuilder() {
@@ -24,29 +24,58 @@ QueryBuilder::~QueryBuilder() {
 QueryBuilder *QueryBuilder::query() {
     return new QueryBuilder();
 }
+
+//ПУБЛИЧНЫЕ МЕТОДЫ. ВЫПОЛНЕНИЕ КАЖДОГО ИЗ НИХ ДОЛЖНО ЗАКАНЧИВАТЬСЯ УДАЛЕНИЕМ ИНСТАНСА!
+
+void QueryBuilder::checkTable() {
+    LogMessage::create(LogLevel::INFO, "QueryBuilder", "Проверяю структуру таблицы " + _tableName);
+    this->createTable();
+
+    for (dbField& field : *_dbFields) {
+        this->createColumn(&field);
+    }
+
+    for (dbField& field : *_timeStampsFields) {
+        this->createColumn(&field);
+    }
+
+    delete this;
+}
+
 void QueryBuilder::createDataBase(const std::string& db_name) const {
     this->executeSqlStatement("CREATE DATABASE IF NOT EXISTS " + db_name);
+    delete this;
 }
 
-void QueryBuilder::createTable(const std::string& tableName, dbField* dbField) const {
-    this->executeSqlStatement("CREATE TABLE  IF NOT EXISTS "+ tableName +" ("+ dbField->getName() + " " +  sqlFIeldTypeNameFor(dbField->getType()) +" AUTO_INCREMENT PRIMARY KEY);");
+// НИЖЕ ИДУТ ЧАСТНЫЕ МЕТОДЫ
+
+void QueryBuilder::createTable() const {
+    this->executeSqlStatement("CREATE TABLE  IF NOT EXISTS "+ _tableName +" ("+ _primaryKeyField->getName() + " " +  sqlFieldTypeNameFor(_primaryKeyField->getType()) +" AUTO_INCREMENT PRIMARY KEY);");
 }
 
 
-bool QueryBuilder::columnExist(const std::string& tableName, const std::string& fieldName) {
-    this->executeSqlQuery("SELECT COLUMN_NAME FROM information_schema.columns WHERE table_schema='"+_db_name+"' AND table_name='"+tableName+"' and column_name='"+fieldName+"';");
+bool QueryBuilder::columnExist(const std::string& fieldName) {
+    this->executeSqlQuery("SELECT COLUMN_NAME FROM information_schema.columns WHERE table_schema='"+_dbName+"' AND table_name='"+_tableName+"' and column_name='"+fieldName+"';");
     while (_result->next()) {
-        delete this;
         return true;
     }
-    delete this;
     return false;
 }
 
-void QueryBuilder::createColumn(const std::string& tableName, dbField* field) {
-    if (!this->columnExist(tableName, field->getName())) {
-        LogMessage::create(LogLevel::WARNING, "QueryBuilder", field->getName() + " в " + tableName + " не существует. Добавляю.");
-        query()->executeSqlStatement("ALTER TABLE " + tableName + " ADD " + field->getName() + " " + sqlFIeldTypeNameFor(field->getType()) + " DEFAULT '" + field->getDefaultValue()+ "';");
+void QueryBuilder::createColumn( const dbField* field) {
+    if (!this->columnExist(field->getName())) {
+        LogMessage::create(LogLevel::WARNING, "QueryBuilder", field->getName() + " в " + _tableName + " не существует. Добавляю.");
+        if (field->getNullable()) {
+            this->executeSqlStatement("ALTER TABLE " + _tableName + " ADD " + field->getName() + " " + sqlFieldTypeNameFor(field->getType()) + " DEFAULT NULL;");
+        }
+        else {
+            if (field->getDefaultValue() == "NULL" || field->getDefaultValue().empty()) {
+                this->executeSqlStatement("ALTER TABLE " + _tableName + " ADD " + field->getName() + " " + sqlFieldTypeNameFor(field->getType()) + " NOT NULL;");
+            }
+            else {
+                this->executeSqlStatement("ALTER TABLE " + _tableName + " ADD " + field->getName() + " " + sqlFieldTypeNameFor(field->getType()) + " NOT NULL DEFAULT '" + field->getDefaultValue()+ "';");
+            }
+        }
     }
 }
 
@@ -74,5 +103,4 @@ void QueryBuilder::executeSqlStatement(const std::string& query) const {
         LogMessage::create(LogLevel::ERROR, "QueryBuilder", "Не удалось выполнить запрос " +  query + ". Получена ошибка: " + std::string(e.what()));
     }
 
-    delete this;
 }

@@ -41,6 +41,8 @@ set(SRCS src/main.cpp
         src/ORM/QueryBuilder.cpp
         src/ORM/QueryBuilder.h
         src/ORM/DbField.h
+        src/ORM/ModelQueryBuilder.cpp
+        src/ORM/ModelQueryBuilder.h
 )
 
 if(APPLE)

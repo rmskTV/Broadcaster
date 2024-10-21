@@ -18,6 +18,7 @@ sql::Connection *DbConnection::getConnection() {
             LogMessage::create(LogLevel::INFO, "DbConnection", "Пробую установить новое подключение к БД");
             driver_ = get_driver_instance();
             connection_ = driver_->connect(db_address_, db_username_, db_password_);
+            connection_->setSchema(db_name_);
 
         }
         catch (sql::SQLException e)
@@ -79,6 +80,6 @@ void DbConnection::useTargetDataBase() {
 
 }
 
-std::string DbConnection::getDbBaseName() {
+const std::string &DbConnection::getDbBaseName() {
     return db_name_;
 }
