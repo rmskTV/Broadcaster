@@ -56,7 +56,7 @@ void QueryBuilder::createTable() const {
 
 bool QueryBuilder::columnExist(const std::string& fieldName) {
     this->executeSqlQuery("SELECT COLUMN_NAME FROM information_schema.columns WHERE table_schema='"+_dbName+"' AND table_name='"+_tableName+"' and column_name='"+fieldName+"';");
-    while (_result->next()) {
+    while (_result != nullptr && _result->next()) {
         return true;
     }
     return false;

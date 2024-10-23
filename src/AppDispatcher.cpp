@@ -24,8 +24,8 @@ void AppDispatcher::checkDbStructure() {
     LogMessage::create(LogLevel::INFO, "AppDispatcher", "Проверяю структуру БД");
     QueryBuilder::query()->createDataBase(DbConnection::getDbBaseName());
     DbConnection::useTargetDataBase();
-
-    LogMessage::query()->checkTable();
-    Channel::query()->checkTable();
-
+    if (DbConnection::getConnection()) {
+        LogMessage::query()->checkTable();
+        Channel::query()->checkTable();
+    }
 }

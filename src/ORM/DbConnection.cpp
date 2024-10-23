@@ -68,16 +68,17 @@ void DbConnection::setDbBaseName(std::string db_name) {
 }
 
 void DbConnection::useTargetDataBase() {
-    try
-    {
-        getConnection()->setSchema(db_name_);
-        LogMessage::create(LogLevel::INFO, "DbConnection", "Коннекшену назначена база " + getDbBaseName());
+    if (connection_ != nullptr) {
+        try
+        {
+            getConnection()->setSchema(db_name_);
+            LogMessage::create(LogLevel::INFO, "DbConnection", "Коннекшену назначена база " + getDbBaseName());
+        }
+        catch (sql::SQLException e)
+        {
+            LogMessage::create(LogLevel::ERROR, "DbConnection", "Не удалось назначить коннекшену базу. Получена ошибка: " + std::string(e.what()));
+        }
     }
-    catch (sql::SQLException e)
-    {
-        LogMessage::create(LogLevel::ERROR, "DbConnection", "Не удалось назначить коннекшену базу. Получена ошибка: " + std::string(e.what()));
-    }
-
 }
 
 const std::string &DbConnection::getDbBaseName() {
