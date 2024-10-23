@@ -10,7 +10,8 @@
 #include <utility>
 #include "DbField.h"
 #include "QueryBuilder.h"
-
+#include <cstdlib>
+#include <vector>
 
 /// @brief Класс Базовой модели. Инкапсулирует взаимодействие С Базой данных для моделей приложения.
 /// @authors Ruslan Moskvitin

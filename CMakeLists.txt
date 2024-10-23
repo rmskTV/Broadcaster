@@ -51,22 +51,36 @@ if(APPLE)
 
     # Set a custom plist file for the app bundle - needed for Mac OS Retina display
     set_target_properties(main PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist)
+
+    set(MYSQL_CONNECTOR_CPP_DIR /Users/ruslanmoskvitin/APPENDES_SDK/mysql-connector-c++-9.0.0-macos14-arm64)
+
+    add_library(libmysqlcppconn STATIC IMPORTED)
+    add_library(libssl3 SHARED IMPORTED)
+    set_property(TARGET libmysqlcppconn PROPERTY IMPORTED_LOCATION ${MYSQL_CONNECTOR_CPP_DIR}/lib64/libmysqlcppconn-static.a)
+    set_property(TARGET libssl3 PROPERTY IMPORTED_LOCATION ${MYSQL_CONNECTOR_CPP_DIR}/lib64/libssl.3.dylib)
 else()
     # the WIN32 is needed for Windows in order for it to look for WinMain
     # instead of the main function. This is ignored on other systems,
     # so it works on all platforms
     add_executable(main WIN32 ${SRCS} main.exe.manifest)
+
+    set(MYSQL_CONNECTOR_CPP_DIR E:\\SDKs\\mysqlconn9.1.0x64)
+    set(CURL_DIR E:\\SDKs\\curl-8.10.1_7-win64-mingw)
+        
+    add_library(libmysqlcppconn STATIC IMPORTED)
+    add_library(libssl3 SHARED IMPORTED)
+    add_library(curl STATIC IMPORTED)
+    set_property(TARGET libmysqlcppconn PROPERTY IMPORTED_LOCATION ${MYSQL_CONNECTOR_CPP_DIR}/lib64/vs14/mysqlcppconn.lib)
+    set_property(TARGET libssl3 PROPERTY IMPORTED_LOCATION ${MYSQL_CONNECTOR_CPP_DIR}/lib64/libssl-3-x64.dll)
+    set_property(TARGET curl PROPERTY IMPORTED_LOCATION ${CURL_DIR}/lib/libcurl.a)
+    include_directories(${CURL_DIR}/include/)
+    include_directories(${CURL_DIR}/include/curl)
+    link_directories(${CURL_DIR}/lib)
 endif()
 
-set(MYSQL_CONNECTOR_CPP_DIR /Users/ruslanmoskvitin/APPENDES_SDK/mysql-connector-c++-9.0.0-macos14-arm64)
 include_directories(${MYSQL_CONNECTOR_CPP_DIR}/include)
 include_directories(${MYSQL_CONNECTOR_CPP_DIR}/include/jdbc)
 link_directories(${MYSQL_CONNECTOR_CPP_DIR}/lib64)
-
-add_library(libmysqlcppconn STATIC IMPORTED)
-add_library(libssl3 SHARED IMPORTED)
-set_property(TARGET libmysqlcppconn PROPERTY IMPORTED_LOCATION ${MYSQL_CONNECTOR_CPP_DIR}/lib64/libmysqlcppconn-static.a)
-set_property(TARGET libssl3 PROPERTY IMPORTED_LOCATION ${MYSQL_CONNECTOR_CPP_DIR}/lib64/libssl.3.dylib)
 
 target_link_libraries(main PRIVATE
         wxcore wxnet

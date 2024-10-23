@@ -9,7 +9,8 @@
 #include "DbField.h"
 #include "BaseModel.h"
 #include <cppconn/resultset.h>
-
+#include <cstdlib>
+#include <vector>
 /// @brief Класс QueryBuilder для построения запросов к Базе Данных через DbConnection
 /// @authors Ruslan Moskvitin
 /// @date Октябрь 2024

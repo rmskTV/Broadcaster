@@ -5,6 +5,7 @@
 #ifndef MODELQUERYBUILDER_H
 #define MODELQUERYBUILDER_H
 #include "QueryBuilder.h"
+#include <cstdlib>
 
 /// @brief Класс ModelQueryBuilder для построения запросов к Базе Данных с привязкой к модели
 /// @authors Ruslan Moskvitin
